@@ -11,8 +11,12 @@ module.exports = {
     const { slug } = ctx.params;
     const entity = await strapi.services.article.findOne({ slug });
     const id = entity.id
-    const prevItem = await strapi.services.article.findOne({ 'id': id - 1 })
-    const nextItem = await strapi.services.article.findOne({ 'id': id + 1 })
+    const nextItem = await strapi.query('article').model.query(qb => {
+      qb.where('id', '>', id).andWhere('status', 'published');
+    }).fetch()
+    const prevItem = await strapi.query('article').model.query(qb => {
+      qb.where('id', '<', id).andWhere('status', 'published');
+    }).fetch()
     return {
       ...sanitizeEntity(entity, { model: strapi.models.article }),
       nextItem,
