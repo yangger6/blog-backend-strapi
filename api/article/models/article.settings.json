@@ -42,9 +42,10 @@
       "targetField": "title",
       "required": true
     },
-    "category": {
-      "model": "category",
-      "via": "articles"
+    "categories": {
+      "collection": "category",
+      "via": "articles",
+      "dominant": true
     },
     "image": {
       "model": "file",
@@ -61,6 +62,20 @@
     "author": {
       "via": "articles",
       "model": "writer"
+    },
+    "articletype": {
+      "type": "enumeration",
+      "enum": [
+        "Banner",
+        "Items"
+      ],
+      "default": "Items",
+      "required": false
+    },
+    "top": {
+      "type": "boolean",
+      "default": false,
+      "required": true
     }
   }
 }
